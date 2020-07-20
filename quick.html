@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Aflow Quick Search</title>
+<!-- ref: http://jsfiddle.net/zAFND/2/ -->
+<style>
+html {
+    font-family: Sans-serif;
+    font-size: 1.75vw;
+}
+
+Table {
+    margin-left:auto; 
+    margin-right:auto;
+}
+Table#PeriodicElements {
+    border-collapse: separate;
+    border-spacing: 0.3rem; 
+}
+Table#PeriodicElements td{
+    visibility: hidden;
+}
+td.AtomicElement label {
+    display: inline-block;
+    position: relative;
+}
+td.AtomicElement label input {
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    top: 0rem;
+    right: 0rem;
+    visibility: visible;
+}
+td.AtomicElement label div.AtomicID{
+    padding: 0.05rem;
+    width: 2.5rem;
+    height: 2.9rem;
+    font-size: 0px;
+    color: black;
+    border: 0.05rem solid gray;
+    box-shadow: 0.1rem 0.1rem 0.1rem gray;
+    -webkit-box-shadow: 0.1rem 0.1rem 0.1rem gray;
+    -moz-box-shadow: 0.1rem 0.1rem 0.1rem gray;
+    cursor: pointer;
+    visibility: visible;
+}
+td.AtomicElement input:disabled {
+    visibility: hidden;
+}
+td.AtomicElement input:disabled + div.AtomicID{
+    color: gray;
+    border: 0.05rem solid lightgray;
+    cursor: default;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+td.AtomicElement input:checked + div.AtomicID{
+    box-shadow: 0.1rem 0.1rem 0.1rem gray inset;
+    -webkit-box-shadow: 0.1rem 0.1rem 0.1rem gray inset;
+    -moz-box-shadow: 0.1rem 0.1rem 0.1rem gray inset;
+}
+th {
+    text-align: center;
+}
+span.AtomicNumber {
+    display: inline-block;
+    text-align: left;
+    font-size: 0.5rem;
+}
+span.AtomicSymbol {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: -0.1rem;
+}
+span.AtomicName {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    font-size: 0.4rem;
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+span.Search {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+input[type="button"] {
+    font-size: 1rem;
+}
+div#Response th{
+    padding: 8px;
+    background-color: #ddd;
+}
+div#Response td{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+div#Response tr{
+    font-size: 0.55rem;
+    height: 1rem;
+}
+div#Response tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+div#Response tbody tr:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+</style>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <form id="Species">
+        <table id="PeriodicElements">
+            <tr><th>(1)</th><th>(2)</th><th>(3)</th><th>(4)</th><th>(5)</th><th>(6)</th><th>(7)</th><th>(8)</th><th>(9)</th><th>(10)</th><th>(11)</th><th>(12)</th><th>(13)</th><th>(14)</th><th>(15)</th><th>(16)</th><th>(17)</th><th>(18)</th></tr>
+            <tr>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="H"><div class="AtomicID">
+                    <span class="AtomicNumber">1</span>
+                    <span class="AtomicSymbol">H</span>
+                    <span class="AtomicName">Hydrogen</span>
+                </div></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="" disabled><div class="AtomicID">
+                    <span class="AtomicNumber">Num</span>
+                    <span class="AtomicSymbol">Sym</span>
+                    <span class="AtomicName">Name</span>
+                </div></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="He"><div class="AtomicID">
+                    <span class="AtomicNumber">2</span>
+                    <span class="AtomicSymbol">He</span>
+                    <span class="AtomicName">Helium</span>
+                </div></label></td>
+            </tr>
+            <tr>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Li"><div class="AtomicID">
+                    <span class="AtomicNumber">3</span>
+                    <span class="AtomicSymbol">Li</span>
+                    <span class="AtomicName">Lithium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Be"><div class="AtomicID">
+                    <span class="AtomicNumber">4</span>
+                    <span class="AtomicSymbol">Be</span>
+                    <span class="AtomicName">Berylium</span>
+                </div></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="B"><div class="AtomicID">
+                    <span class="AtomicNumber">5</span>
+                    <span class="AtomicSymbol">B</span>
+                    <span class="AtomicName">Boron</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="C"><div class="AtomicID">
+                    <span class="AtomicNumber">6</span>
+                    <span class="AtomicSymbol">C</span>
+                    <span class="AtomicName">Carbon</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="N"><div class="AtomicID">
+                    <span class="AtomicNumber">7</span>
+                    <span class="AtomicSymbol">N</span>
+                    <span class="AtomicName">Nitrogen</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="O"><div class="AtomicID">
+                    <span class="AtomicNumber">8</span>
+                    <span class="AtomicSymbol">O</span>
+                    <span class="AtomicName">Oxygen</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="F"><div class="AtomicID">
+                    <span class="AtomicNumber">9</span>
+                    <span class="AtomicSymbol">F</span>
+                    <span class="AtomicName">Flourine</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ne"><div class="AtomicID">
+                    <span class="AtomicNumber">10</span>
+                    <span class="AtomicSymbol">Ne</span>
+                    <span class="AtomicName">Neon</span>
+                </div></label></td>
+            </tr>
+            <tr>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Na"><div class="AtomicID">
+                    <span class="AtomicNumber">11</span>
+                    <span class="AtomicSymbol">Na</span>
+                    <span class="AtomicName">Sodium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Mg"><div class="AtomicID">
+                    <span class="AtomicNumber">12</span>
+                    <span class="AtomicSymbol">Mg</span>
+                    <span class="AtomicName">Magnesium</span>
+                </div></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Al"><div class="AtomicID">
+                    <span class="AtomicNumber">13</span>
+                    <span class="AtomicSymbol">Al</span>
+                    <span class="AtomicName">Aluminum</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Si"><div class="AtomicID">
+                    <span class="AtomicNumber">14</span>
+                    <span class="AtomicSymbol">Si</span>
+                    <span class="AtomicName">Silicon</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="P"><div class="AtomicID">
+                    <span class="AtomicNumber">15</span>
+                    <span class="AtomicSymbol">P</span>
+                    <span class="AtomicName">Phosphorus</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="S"><div class="AtomicID">
+                    <span class="AtomicNumber">16</span>
+                    <span class="AtomicSymbol">S</span>
+                    <span class="AtomicName">Sulfur</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Cl"><div class="AtomicID">
+                    <span class="AtomicNumber">17</span>
+                    <span class="AtomicSymbol">Cl</span>
+                    <span class="AtomicName">Chlorine</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ar"><div class="AtomicID">
+                    <span class="AtomicNumber">18</span>
+                    <span class="AtomicSymbol">Ar</span>
+                    <span class="AtomicName">Argon</span>
+                </div></label></td>
+            </tr>
+            <tr>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="K"><div class="AtomicID">
+                    <span class="AtomicNumber">19</span>
+                    <span class="AtomicSymbol">K</span>
+                    <span class="AtomicName">Potassium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ca"><div class="AtomicID">
+                    <span class="AtomicNumber">20</span>
+                    <span class="AtomicSymbol">Ca</span>
+                    <span class="AtomicName">Calcium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Sc"><div class="AtomicID">
+                    <span class="AtomicNumber">21</span>
+                    <span class="AtomicSymbol">Sc</span>
+                    <span class="AtomicName">Scandium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ti"><div class="AtomicID">
+                    <span class="AtomicNumber">22</span>
+                    <span class="AtomicSymbol">Ti</span>
+                    <span class="AtomicName">Titanium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="V"><div class="AtomicID">
+                    <span class="AtomicNumber">23</span>
+                    <span class="AtomicSymbol">V</span>
+                    <span class="AtomicName">Vanadium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Cr"><div class="AtomicID">
+                    <span class="AtomicNumber">24</span>
+                    <span class="AtomicSymbol">Cr</span>
+                    <span class="AtomicName">Chromium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Mn"><div class="AtomicID">
+                    <span class="AtomicNumber">25</span>
+                    <span class="AtomicSymbol">Mn</span>
+                    <span class="AtomicName">Manganese</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Fe"><div class="AtomicID">
+                    <span class="AtomicNumber">26</span>
+                    <span class="AtomicSymbol">Fe</span>
+                    <span class="AtomicName">Iron</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Co"><div class="AtomicID">
+                    <span class="AtomicNumber">27</span>
+                    <span class="AtomicSymbol">Co</span>
+                    <span class="AtomicName">Cobalt</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ni"><div class="AtomicID">
+                    <span class="AtomicNumber">28</span>
+                    <span class="AtomicSymbol">Ni</span>
+                    <span class="AtomicName">Nickel</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Cu"><div class="AtomicID">
+                    <span class="AtomicNumber">29</span>
+                    <span class="AtomicSymbol">Cu</span>
+                    <span class="AtomicName">Copper</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Zn"><div class="AtomicID">
+                    <span class="AtomicNumber">30</span>
+                    <span class="AtomicSymbol">Zn</span>
+                    <span class="AtomicName">Zinc</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ga"><div class="AtomicID">
+                    <span class="AtomicNumber">31</span>
+                    <span class="AtomicSymbol">Ga</span>
+                    <span class="AtomicName">Gallium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ge"><div class="AtomicID">
+                    <span class="AtomicNumber">32</span>
+                    <span class="AtomicSymbol">Ge</span>
+                    <span class="AtomicName">Germanium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="As"><div class="AtomicID">
+                    <span class="AtomicNumber">33</span>
+                    <span class="AtomicSymbol">As</span>
+                    <span class="AtomicName">Arsenic</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Se"><div class="AtomicID">
+                    <span class="AtomicNumber">34</span>
+                    <span class="AtomicSymbol">Se</span>
+                    <span class="AtomicName">Selenium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Br"><div class="AtomicID">
+                    <span class="AtomicNumber">35</span>
+                    <span class="AtomicSymbol">Br</span>
+                    <span class="AtomicName">Bromine</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Kr"><div class="AtomicID">
+                    <span class="AtomicNumber">36</span>
+                    <span class="AtomicSymbol">Kr</span>
+                    <span class="AtomicName">Krypton</span>
+                </div></label></td>
+            </tr>
+            <tr>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Rb"><div class="AtomicID">
+                    <span class="AtomicNumber">37</span>
+                    <span class="AtomicSymbol">Rb</span>
+                    <span class="AtomicName">Rubidium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Sr"><div class="AtomicID">
+                    <span class="AtomicNumber">38</span>
+                    <span class="AtomicSymbol">Sr</span>
+                    <span class="AtomicName">Strontium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Y"><div class="AtomicID">
+                    <span class="AtomicNumber">39</span>
+                    <span class="AtomicSymbol">Y</span>
+                    <span class="AtomicName">Yttrium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Zr"><div class="AtomicID">
+                    <span class="AtomicNumber">40</span>
+                    <span class="AtomicSymbol">Zr</span>
+                    <span class="AtomicName">Zirconium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Nb"><div class="AtomicID">
+                    <span class="AtomicNumber">41</span>
+                    <span class="AtomicSymbol">Nb</span>
+                    <span class="AtomicName">Niobium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Mo"><div class="AtomicID">
+                    <span class="AtomicNumber">42</span>
+                    <span class="AtomicSymbol">Mo</span>
+                    <span class="AtomicName">Molybdenum</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Tc"><div class="AtomicID">
+                    <span class="AtomicNumber">43</span>
+                    <span class="AtomicSymbol">Tc</span>
+                    <span class="AtomicName">Technetium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ru"><div class="AtomicID">
+                    <span class="AtomicNumber">44</span>
+                    <span class="AtomicSymbol">Ru</span>
+                    <span class="AtomicName">Ruthenium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Rh"><div class="AtomicID">
+                    <span class="AtomicNumber">45</span>
+                    <span class="AtomicSymbol">Rh</span>
+                    <span class="AtomicName">Rhodium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Pd"><div class="AtomicID">
+                    <span class="AtomicNumber">46</span>
+                    <span class="AtomicSymbol">Pd</span>
+                    <span class="AtomicName">Palladium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ag"><div class="AtomicID">
+                    <span class="AtomicNumber">47</span>
+                    <span class="AtomicSymbol">Ag</span>
+                    <span class="AtomicName">Silver</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Cd"><div class="AtomicID">
+                    <span class="AtomicNumber">48</span>
+                    <span class="AtomicSymbol">Cd</span>
+                    <span class="AtomicName">Cadmium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="In"><div class="AtomicID">
+                    <span class="AtomicNumber">49</span>
+                    <span class="AtomicSymbol">In</span>
+                    <span class="AtomicName">Indium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Sn"><div class="AtomicID">
+                    <span class="AtomicNumber">50</span>
+                    <span class="AtomicSymbol">Sn</span>
+                    <span class="AtomicName">Tin</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Sb"><div class="AtomicID">
+                    <span class="AtomicNumber">51</span>
+                    <span class="AtomicSymbol">Sb</span>
+                    <span class="AtomicName">Antimony</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Te"><div class="AtomicID">
+                    <span class="AtomicNumber">52</span>
+                    <span class="AtomicSymbol">Te</span>
+                    <span class="AtomicName">Tellurium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="I"><div class="AtomicID">
+                    <span class="AtomicNumber">53</span>
+                    <span class="AtomicSymbol">I</span>
+                    <span class="AtomicName">Iodine</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Xe"><div class="AtomicID">
+                    <span class="AtomicNumber">54</span>
+                    <span class="AtomicSymbol">Xe</span>
+                    <span class="AtomicName">Xenon</span>
+                </div></label></td>
+            </tr>
+            <tr>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Cs"><div class="AtomicID">
+                    <span class="AtomicNumber">55</span>
+                    <span class="AtomicSymbol">Cs</span>
+                    <span class="AtomicName">Cesium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ba"><div class="AtomicID">
+                    <span class="AtomicNumber">56</span>
+                    <span class="AtomicSymbol">Ba</span>
+                    <span class="AtomicName">Barium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="" disabled><div class="AtomicID">
+                    <span class="AtomicNumber">57-71</span>
+                    <span class="AtomicName">Lanthanides</span>
+                    <span class="AtomicSymbol">&darr;</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Hf"><div class="AtomicID">
+                    <span class="AtomicNumber">72</span>
+                    <span class="AtomicSymbol">Hf</span>
+                    <span class="AtomicName">Halfnium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ta"><div class="AtomicID">
+                    <span class="AtomicNumber">73</span>
+                    <span class="AtomicSymbol">Ta</span>
+                    <span class="AtomicName">Tantalum</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="W"><div class="AtomicID">
+                    <span class="AtomicNumber">74</span>
+                    <span class="AtomicSymbol">W</span>
+                    <span class="AtomicName">Tungsten</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Re"><div class="AtomicID">
+                    <span class="AtomicNumber">75</span>
+                    <span class="AtomicSymbol">Re</span>
+                    <span class="AtomicName">Rhenium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Os"><div class="AtomicID">
+                    <span class="AtomicNumber">76</span>
+                    <span class="AtomicSymbol">Os</span>
+                    <span class="AtomicName">Osmium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ir"><div class="AtomicID">
+                    <span class="AtomicNumber">77</span>
+                    <span class="AtomicSymbol">Ir</span>
+                    <span class="AtomicName">Iridium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Pt"><div class="AtomicID">
+                    <span class="AtomicNumber">78</span>
+                    <span class="AtomicSymbol">Pt</span>
+                    <span class="AtomicName">Platinum</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Au"><div class="AtomicID">
+                    <span class="AtomicNumber">79</span>
+                    <span class="AtomicSymbol">Au</span>
+                    <span class="AtomicName">Gold</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Hg"><div class="AtomicID">
+                    <span class="AtomicNumber">80</span>
+                    <span class="AtomicSymbol">Hg</span>
+                    <span class="AtomicName">Mercury</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ti"><div class="AtomicID">
+                    <span class="AtomicNumber">81</span>
+                    <span class="AtomicSymbol">Ti</span>
+                    <span class="AtomicName">Thallium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Pb"><div class="AtomicID">
+                    <span class="AtomicNumber">82</span>
+                    <span class="AtomicSymbol">Pb</span>
+                    <span class="AtomicName">Lead</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Bi"><div class="AtomicID">
+                    <span class="AtomicNumber">83</span>
+                    <span class="AtomicSymbol">Bi</span>
+                    <span class="AtomicName">Bismuth</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Po" disabled><div class="AtomicID">
+                    <span class="AtomicNumber">84</span>
+                    <span class="AtomicSymbol">Po</span>
+                    <span class="AtomicName">Polonium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="At" disabled><div class="AtomicID">
+                    <span class="AtomicNumber">85</span>
+                    <span class="AtomicSymbol">At</span>
+                    <span class="AtomicName">Astatine</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Rn" disabled><div class="AtomicID">
+                    <span class="AtomicNumber">86</span>
+                    <span class="AtomicSymbol">Rn</span>
+                    <span class="AtomicName">Radon</span>
+                </div></label></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="La"><div class="AtomicID">
+                    <span class="AtomicNumber">57</span>
+                    <span class="AtomicSymbol">La</span>
+                    <span class="AtomicName">Lanthanum</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ce"><div class="AtomicID">
+                    <span class="AtomicNumber">58</span>
+                    <span class="AtomicSymbol">Ce</span>
+                    <span class="AtomicName">Cerium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Pr"><div class="AtomicID">
+                    <span class="AtomicNumber">59</span>
+                    <span class="AtomicSymbol">Pr</span>
+                    <span class="AtomicName">Praseodymium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Nd"><div class="AtomicID">
+                    <span class="AtomicNumber">60</span>
+                    <span class="AtomicSymbol">Nd</span>
+                    <span class="AtomicName">Neodymium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Pm"><div class="AtomicID">
+                    <span class="AtomicNumber">61</span>
+                    <span class="AtomicSymbol">Pm</span>
+                    <span class="AtomicName">Promethium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Sm"><div class="AtomicID">
+                    <span class="AtomicNumber">62</span>
+                    <span class="AtomicSymbol">Sm</span>
+                    <span class="AtomicName">Samarium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Eu"><div class="AtomicID">
+                    <span class="AtomicNumber">63</span>
+                    <span class="AtomicSymbol">Eu</span>
+                    <span class="AtomicName">Europium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Gd"><div class="AtomicID">
+                    <span class="AtomicNumber">64</span>
+                    <span class="AtomicSymbol">Gd</span>
+                    <span class="AtomicName">Gadolimium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Tb"><div class="AtomicID">
+                    <span class="AtomicNumber">65</span>
+                    <span class="AtomicSymbol">Tb</span>
+                    <span class="AtomicName">Terbium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Dy"><div class="AtomicID">
+                    <span class="AtomicNumber">66</span>
+                    <span class="AtomicSymbol">Dy</span>
+                    <span class="AtomicName">Dysprosium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Ho"><div class="AtomicID">
+                    <span class="AtomicNumber">67</span>
+                    <span class="AtomicSymbol">Ho</span>
+                    <span class="AtomicName">Holmium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Er"><div class="AtomicID">
+                    <span class="AtomicNumber">68</span>
+                    <span class="AtomicSymbol">Er</span>
+                    <span class="AtomicName">Erbium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Tm"><div class="AtomicID">
+                    <span class="AtomicNumber">69</span>
+                    <span class="AtomicSymbol">Tm</span>
+                    <span class="AtomicName">Thulium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Yb"><div class="AtomicID">
+                    <span class="AtomicNumber">70</span>
+                    <span class="AtomicSymbol">Yb</span>
+                    <span class="AtomicName">Ytterbium</span>
+                </div></label></td>
+                <td class="AtomicElement"><label><input name="species" type="checkbox" value="Lu"><div class="AtomicID">
+                    <span class="AtomicNumber">71</span>
+                    <span class="AtomicSymbol">Lu</span>
+                    <span class="AtomicName">Lutetium</span>
+                </div></label></td>
+                <td></td>
+            </tr>
+        </table>
+        <span class="Search">
+            <input type="button" value="Search"> compounds that
+            <div style="vertical-align:middle;display:inline-block;">
+                <span style="display:block;float: left;"><input type="radio" name="nspecies" value="enumerate" checked>are</span><br>
+                <span style="display:block;"><input type="radio" name="nspecies" value="">have</span>
+            </div> these species
+        </span>
+    </form>
+    <span id="Loading" style="visibility:hidden;"></span>
+    <div id="Response"></div>
+    <script>
+function Summons() {
+    i = 0;
+    var throbber = setInterval(function() {
+        i = ++i % 4;
+        $("span#Loading").html("Loading "+Array(i+1).join("."));
+    }, 800);
+    $("span#Loading").css( "visibility","visible" );
+    var Species = [];
+    $('form#Species input[name="species"]:checked').each( function() {
+        Species.push( this.value );
+    });
+    var Species_Str = "$species"+JSON.stringify( Species );
+    Species_Str = Species_Str.replace( /\[/g, "(" );
+    Species_Str = Species_Str.replace( /\]/g, ")" );
+    Species_Str = Species_Str.replace( /"/g, '' );
+
+    var Nspecies_Str = '';
+    if( $('input[name="nspecies"][value="enumerate"]').is(':checked') ) {
+        Nspecies_Str = ',$nspecies(' + Species.length + ')';
+    }
+
+    var Summons_Str = 'enthalpy_formation_atom,sg2,Pearson_symbol_relax,Egap,Egap_type,spin_atom,density,';
+    Summons_Str += Species_Str;
+    Summons_Str += Nspecies_Str;
+    Summons_Str += ',$aurl,paging(0)';
+
+    var eidolon = "<table>";
+	$.get('http://aflowlib.duke.edu/search/API/?'+ Summons_Str, function( data ) {
+        $("span#Loading").css( "visibility","hidden" );
+        clearInterval( throbber );
+        //alert( Object.keys( data ).length );
+        if( Object.keys( data ).length > 1024 ) {
+            eidolon = "Too many results: Modify your search or <a href='http://aflow.org/advanced.php'>Try the advanced search</a>";
+        } else {
+            $.each( data, function( Row_Name, Row_Data ) {
+                if( eidolon.length <= 7 ) {
+                    eidolon += "<thead><tr><th></th>";
+                    $.each( Row_Data, function( key, value ) {
+                        eidolon += '<th>'+key+'</th>';
+                    });
+                    eidolon += '</tr></thead><tbody>';
+                }
+                eidolon += '<tr onclick="window.open(\'http://aflow.org/material.php?id='+Row_Data['auid']+'\',\'_blank\');">';
+                eidolon += '<td>'+Row_Name+'</td>';
+                $.each( Row_Data, function( key, value ) {
+                    eidolon += '<td>'+value+'</td>';
+                });
+                eidolon += '</tr>';
+            });
+            eidolon += '</tbody></table>';
+        }
+        $("#Response").html( eidolon );
+    });
+}
+$( "span.Search input[type='button']" ).on( "click", Summons );
+    </script>
+</body>
+</html>
