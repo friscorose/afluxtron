@@ -1,22 +1,23 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "afluxtron",
+  "version": "0.9.0",
+  "description": "Aflow quick search via Aflux",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/friscorose/afluxtron",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Aflow",
+    "Aflux",
+    "search",
+    "Materials",
+    "Application"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Frisco Rose",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^9.1.0"
+    "electron": "^9.1.0",
+    "electron-packager": "^15.0.0"
   }
 }
